@@ -39,24 +39,41 @@ board_positions_vertical = [[0, 0, 2, 0, 4, 0], [0, 2, 2, 2, 4, 2], [0, 4, 2, 4,
 board_positions_axis = [[0, 0, 2, 2, 4, 4], [0, 4, 2, 2, 4, 0]]
 player_turn = 0
 number_of_signs = 0
+list_with_players_choices = []
 
 while game_on:
     if player_turn == 0:
         print("\nPlayer One turn")
         player_input = input("Where would you like to place sign?\n")
-        board_position = position_dict[player_input]
-        board[board_position[0]][board_position[1]] = player_1_sign
-        print(f"{row1}\n{row2}\n{row3}\n{row4}\n{row5}")
-        player_turn += 1
-        number_of_signs += 1
+        if player_input not in position_dict:
+            print("Please chose location according to the game information.\n"
+                  "Game info: to place a sign in chosen position use commands:"
+                  " for top left 'tl', bottom right 'br' and so one.")
+        elif player_input in list_with_players_choices:
+            print("Please chose other position that wasn't taken")
+        else:
+            list_with_players_choices.append(player_input)
+            board_position = position_dict[player_input]
+            board[board_position[0]][board_position[1]] = player_1_sign
+            print(f"{row1}\n{row2}\n{row3}\n{row4}\n{row5}")
+            player_turn += 1
+            number_of_signs += 1
     else:
         print("\nPlayer Two turn")
         player_input = input("Where would you like to place sign?\n")
-        board_position = position_dict[player_input]
-        board[board_position[0]][board_position[1]] = player_2_sign
-        print(f"{row1}\n{row2}\n{row3}\n{row4}\n{row5}")
-        player_turn -= 1
-        number_of_signs += 1
+        if player_input not in position_dict:
+            print("Please chose location according to the game information.\n"
+                  "Game info: to place a sign in chosen position use commands:"
+                  " for top left 'tl', bottom right 'br' and so one.")
+        elif player_input in list_with_players_choices:
+            print("Please chose other position that wasn't taken")
+        else:
+            list_with_players_choices.append(player_input)
+            board_position = position_dict[player_input]
+            board[board_position[0]][board_position[1]] = player_2_sign
+            print(f"{row1}\n{row2}\n{row3}\n{row4}\n{row5}")
+            player_turn -= 1
+            number_of_signs += 1
     if number_of_signs >= 5:
         for sign in sign_list:
             for position in board_positions_horizontal:
@@ -67,14 +84,14 @@ while game_on:
                         game_on = False
                         break
                     else:
-                        print(f"Player Two Wins!!!")
+                        print(f"\nPlayer Two Wins!!!")
                         game_on = False
                         break
             for position in board_positions_vertical:
                 if board[position[0]][position[1]] == sign and board[position[2]][position[3]] == sign and \
                         board[position[4]][position[5]] == sign:
                     if player_1_sign == sign:
-                        print(f"Player One Wins!!!")
+                        print(f"\nPlayer One Wins!!!")
                         game_on = False
                         break
                     else:
