@@ -23,7 +23,6 @@ ___________.__         ___________               ___________
 print("Welcome to the Tic Tac Toe Game.")
 print(logo)
 print("Game info: to place a sign in chosen position use commands: for top left 'tl', bottom right 'br' and so one.\n")
-game_mode = input("\nPlease chose game type: human vs human press 'h' or human vs computer press 'c'.\n")
 
 # Game options and settings
 game_on = True
@@ -31,7 +30,6 @@ sign_list = ["x", "o"]
 board_positions_horizontal = [[0, 1, 2], [3, 4, 5], [6, 7, 8]]
 board_positions_vertical = [[0, 3, 6], [1, 4, 7], [2, 5, 8]]
 board_positions_axis = [[0, 4, 8], [2, 4, 6]]
-
 
 def board_visualisation():
     print(f" {board[0]} | {board[1]} | {board[2] }")
@@ -149,7 +147,7 @@ def human_vs_computer():
         else:
             computer_choice = random.choice(list(position_dict.items()))
             print(computer_choice[0])
-            if computer_choice in list_with_players_choices:
+            if computer_choice[0] in list_with_players_choices:
                 continue
             else:
                 list_with_players_choices.append(computer_choice)
@@ -193,31 +191,40 @@ def human_vs_computer():
 
 def game_human_continue_decision():
     global game_on, board
-    game_cont_decision = input("Would you like to play another game? Type 'Y' to continue or 'N' "
-                               "to finish.\n")
+    game_cont_decision = input("Would you like to play another game? Type 'Y' to continue, 'N' "
+                               "to finish or 'M' to change game mode.\n")
+    board.clear()
+    board = 9 * ["⬜️"]
     if game_cont_decision.lower() == 'y':
-        board.clear()
-        board = 9 * ["⬜️"]
         human_vs_human()
+    elif game_cont_decision.lower() == 'm':
+        the_game()
     else:
         game_on = False
 
 
 def game_computer_continue_decision():
     global game_on, board
-    game_cont_decision = input("Would you like to play another game? Type 'Y' to continue or 'N' "
-                               "to finish.\n")
+    game_cont_decision = input("Would you like to play another game? Type 'Y' to continue, 'N' "
+                               "to finish or 'M' to change game mode.\n")
+    board.clear()
+    board = 9 * ["⬜️"]
     if game_cont_decision.lower() == 'y':
-        board.clear()
-        board = 9 * ["⬜️"]
         human_vs_computer()
+    elif game_cont_decision.lower() == 'm':
+        the_game()
     else:
         game_on = False
 
 
-if game_mode.lower() == 'h':
-    human_vs_human()
-elif game_mode.lower() == 'c':
-    human_vs_computer()
-else:
-    print("Wrong game option. Try again.")
+def the_game():
+    game_mode = input("\nPlease chose game type: human vs human press 'h' or human vs computer press 'c'.\n").lower()
+    if game_mode == 'h':
+        human_vs_human()
+    elif game_mode == 'c':
+        human_vs_computer()
+    else:
+        print("Wrong game option. Try again.")
+
+
+the_game()
